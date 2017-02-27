@@ -32,4 +32,4 @@ Notes:
 
 * You can use both flags together, and in any order.
 
- - e.g: java runtm palindrome.txt input.txt -I -P# turing 
+ - e.g: java runtm palindrome.txt input.txt -I -P
