@@ -1,4 +1,4 @@
-states 16
+states 
 q0
 q1
 q2
@@ -10,107 +10,175 @@ q7
 q8
 q9
 q10
-q11
 q12
 q13
 qa +
 qr -
-alphabet 7 0 @ 1 ! X # _
-q0 0 q1 @ R
-q0 @ qr @ R
-q0 1 q2 ! R
-q0 ! qr ! R
+alphabet 5 0 1 X # _
+q0 0 q1 X R
+q0 1 q2 X R
 q0 X qr X R
 q0 # qr # R
 q0 _ qr _ R
+////////////////////////////////////////
 q1 0 q1 0 R
-q1 @ qr @ R
 q1 1 q1 1 R
-q1 ! qr ! R
 q1 X qr X R
 q1 # q3 # R
 q1 _ qr _ R
+////////////////////////////////////////
 q2 0 q2 0 R
-q2 @ qr @ R
 q2 1 q2 1 R
-q2 ! qr ! R
 q2 X qr X R
 q2 # q4 # R
 q2 _ qr _ R
-q3 0 q5 @ R
-q3 @ qr @ R
-q3 1 q6 ! R
-q3 ! qr ! R
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+////////////////////////////////////////
+q3 0 q5 X R
+q3 1 q6 X R
 q3 X qr X R
 q3 # qr # R
 q3 _ qr _ R
-q4 0 q7 @ R
-q4 @ qr @ R
-q4 1 q8 ! R
-q4 ! qr ! R
+////////////////////////////////////////
+q4 0 q6 X R
+q4 1 q7 X R
 q4 X qr X R
 q4 # qr # R
 q4 _ qr _ R
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+////////////////////////////////////////
 q5 0 q5 0 R
-q5 @ qr @ R
 q5 1 q5 1 R
-q5 ! qr ! R
 q5 X qr X R
-q5 # q9 # R
+q5 # q8 # R
 q5 _ qr _ R
+////////////////////////////////////////
 q6 0 q6 0 R
-q6 @ qr @ R
 q6 1 q6 1 R
-q6 ! qr ! R
 q6 X qr X R
-q6 # q10 # R
+q6 # q9 # R
 q6 _ qr _ R
+////////////////////////////////////////
 q7 0 q7 0 R
-q7 @ qr @ R
 q7 1 q7 1 R
-q7 ! qr ! R
 q7 X qr X R
-q7 # q11 # R
+q7 # q10 # R
 q7 _ qr _ R
-q8 0 q8 0 R
-q8 @ qr @ R
-q8 1 q8 1 R
-q8 ! qr ! R
+////////////////////////////////////////
+q8 0 q11 X L
+q8 1 qr 1 R
 q8 X qr X R
-q8 # q12 # R
+q8 # qr # R
 q8 _ qr _ R
-q9 0 qa X L
-q9 @ qr @ R
-q9 1 qr 1 R
-q9 ! qr ! R
+////////////////////////////////////////
+q9 0 qr 0 R
+q9 1 q11 X L
 q9 X qr X R
 q9 # qr # R
 q9 _ qr _ R
-q10 0 qr 0 R
-q10 @ qr @ R
-q10 1 qa X L
-q10 ! qr ! R
+////////////////////////////////////////
+q10 0 q14 X L
+q10 1 qr 1 R
 q10 X qr X R
 q10 # qr # R
 q10 _ qr _ R
-q11 0 qr 0 R
-q11 @ qr @ R
-q11 1 qa X L
-q11 ! qr ! R
-q11 X qr X R
-q11 # qr # R
+////////////////////////////////////////
+q11 0 q11 0 L
+q11 1 q11 1 L
+q11 X q11 X L
+q11 # q12 # L
 q11 _ qr _ R
-q12 0 q13 @ R
-q12 @ qr @ R
-q12 1 qr 1 R
-q12 ! qr ! R
-q12 X qr X R
-q12 # qr # R
+////////////////////////////////////////
+q12 0 q12 0 L
+q12 1 q12 1 L
+q12 X q12 X L
+q12 # q13 # L
 q12 _ qr _ R
-q13 0 qr 0 R
-q13 @ qr @ R
-q13 1 qa X L
-q13 ! qr ! R
-q13 X qr X R
+////////////////////////////////////////
+q13 0 q13 0 L
+q13 1 q13 1 L
+q13 X qNORMALSTART X R
 q13 # qr # R
 q13 _ qr _ R
+////////////////////////////////////////
+q14 0 q14 0 L
+q14 1 q14 1 L
+q14 X q14 X L
+q14 # q15 # L
+q14 _ qr _ R
+////////////////////////////////////////
+q15 0 q15 0 L
+q15 1 q15 1 L
+q15 X q15 X L
+q15 # q16 # L
+q15 _ qr _ R
+////////////////////////////////////////
+q16 0 q16 0 L
+q16 1 q16 1 L
+q16 X qCARRYSTART X R
+q16 # qr # R
+q16 _ qr _ R
