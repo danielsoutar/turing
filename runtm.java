@@ -26,6 +26,7 @@ public class runtm {
 		} 
 		catch (FileNotFoundException | InputException e) {
 			System.out.println(e.getMessage());
+			System.exit(0);
 		}
 
 		//printMachineDescription(machine);

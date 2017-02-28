@@ -1,4 +1,4 @@
-states 
+states 31
 q0
 q1
 q2
@@ -10,112 +10,174 @@ q7
 q8
 q9
 q10
+q11
 q12
 q13
 q14
 q15
 q16
+q17
+q18
+q19
+q20
+q21
+q22
+q23
+q24
+q25
+q26
+q27
+q28
 qa +
 qr -
-alphabet 5 0 1 X # _
+alphabet 4 0 1 X #
 q0 0 q1 X R
 q0 1 q2 X R
 q0 X qr X R
 q0 # qr # R
 q0 _ qr _ R
-////////////////////////////////////////
 q1 0 q1 0 R
 q1 1 q1 1 R
 q1 X qr X R
 q1 # q3 # R
 q1 _ qr _ R
-////////////////////////////////////////
 q2 0 q2 0 R
 q2 1 q2 1 R
 q2 X qr X R
 q2 # q4 # R
 q2 _ qr _ R
-////////////////////////////////////////
 q3 0 q5 X R
 q3 1 q6 X R
 q3 X qr X R
 q3 # qr # R
 q3 _ qr _ R
-////////////////////////////////////////
 q4 0 q6 X R
 q4 1 q7 X R
 q4 X qr X R
 q4 # qr # R
 q4 _ qr _ R
-////////////////////////////////////////
 q5 0 q5 0 R
 q5 1 q5 1 R
 q5 X qr X R
 q5 # q8 # R
 q5 _ qr _ R
-////////////////////////////////////////
 q6 0 q6 0 R
 q6 1 q6 1 R
 q6 X qr X R
 q6 # q9 # R
 q6 _ qr _ R
-////////////////////////////////////////
 q7 0 q7 0 R
 q7 1 q7 1 R
 q7 X qr X R
 q7 # q10 # R
 q7 _ qr _ R
-////////////////////////////////////////
 q8 0 q11 X L
 q8 1 qr 1 R
 q8 X qr X R
 q8 # qr # R
 q8 _ qr _ R
-////////////////////////////////////////
 q9 0 qr 0 R
 q9 1 q11 X L
 q9 X qr X R
 q9 # qr # R
 q9 _ qr _ R
-////////////////////////////////////////
 q10 0 q14 X L
 q10 1 qr 1 R
 q10 X qr X R
 q10 # qr # R
 q10 _ qr _ R
-////////////////////////////////////////
 q11 0 q11 0 L
 q11 1 q11 1 L
 q11 X q11 X L
 q11 # q12 # L
 q11 _ qr _ R
-////////////////////////////////////////
 q12 0 q12 0 L
 q12 1 q12 1 L
 q12 X q12 X L
 q12 # q13 # L
 q12 _ qr _ R
-////////////////////////////////////////
 q13 0 q13 0 L
 q13 1 q13 1 L
-q13 X qNORMALSTART X R
+q13 X q28 X R
 q13 # qr # R
 q13 _ qr _ R
-////////////////////////////////////////
 q14 0 q14 0 L
 q14 1 q14 1 L
 q14 X q14 X L
 q14 # q15 # L
 q14 _ qr _ R
-////////////////////////////////////////
 q15 0 q15 0 L
 q15 1 q15 1 L
 q15 X q15 X L
 q15 # q16 # L
 q15 _ qr _ R
-////////////////////////////////////////
 q16 0 q16 0 L
 q16 1 q16 1 L
-q16 X qCARRYSTART X R
+q16 X q17 X R
 q16 # qr # R
 q16 _ qr _ R
+q17 0 q18 X R
+q17 1 q19 X R
+q17 X qr X R
+q17 # q18 # R
+q17 _ qr _ R
+q18 0 q18 0 R
+q18 1 q18 1 R
+q18 X q18 X R
+q18 # q20 # R
+q18 _ qr _ R
+q19 0 q19 0 R
+q19 1 q19 1 R
+q19 X q19 X R
+q19 # q21 # R
+q19 _ qr _ R
+q20 0 q22 X R
+q20 1 q23 X R
+q20 X q20 X R
+q20 # q25 # R
+q20 _ qr _ R
+q21 0 q23 X R
+q21 1 q24 X R
+q21 X q21 X R
+q21 # q26 # R
+q21 _ qr _ R
+q22 0 q22 0 R
+q22 1 q22 1 R
+q22 X q22 X R
+q22 # q25 # R
+q22 _ qr _ R
+q23 0 q23 0 R
+q23 1 q23 1 R
+q23 X q23 X R
+q23 # q26 # R
+q23 _ qr _ R
+q24 0 q24 0 R
+q24 1 q24 1 R
+q24 X q24 X R
+q24 # q27 # R
+q24 _ qr _ R
+q25 0 qr 0 R
+q25 1 q11 X L
+q25 X q25 X R
+q25 # qr # R
+q25 _ qr _ R
+q26 0 q14 X L
+q26 1 qr 1 R
+q26 X q26 X R
+q26 # qr # R
+q26 _ qr _ R
+q27 0 qr 0 R
+q27 1 q14 X R
+q27 X q27 X R
+q27 # qr # R
+q27 _ qr _ R
+q28 0 q29 X R
+q28 1 q31 X R
+q28 X qr X R
+q28 # q30 # R
+q28 _ qr _ R
+q29 0
+q29 1
+q29 X
+q29 #
+q29 _
