@@ -37,6 +37,20 @@ Notes:
  
 #######################################################################################
  
-Recognise from the language {w#n | w is any sequence of characters and n is the length of w} over the alphabet {a, b, c}
+Recognise from the language {#n#w | w is any sequence of characters and n is the length of w} over the alphabet {a, b, c}
  
-For instance, abcabc#6_, #0_, and abbabba#7_ belong to the language, but abba#5_, aaa3_, and #000_ do not.
+For instance, #6#abcabc_, #0#_, and #7#abbabba_ belong to the language, but #abba#5_, #3aaa_, and #000#_ do not.
+
+
+4#abba_
+
+0) can check for how many 0s as you start X
+    - if 0, then if next character is not a hash and character after that _, reject (no trailing 0s) X
+    - if not, carry on X
+1) go to second hash, step back one (will be at smallest digit) X
+2) if not 0:
+    - decrement by one, mark off a character in input, rewind to second hash X
+   if 0:
+    - move left until non-0 number or hash, decrement by 1 if number, replace with 9s as you move right, mark off character in input, rewind to second hash
+    - if no non-0 character by the time you reach a hash, move to end of input. If any non-X letters after second hash, reject. Otherwise reach _ and accept.
+   
