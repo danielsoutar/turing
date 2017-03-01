@@ -1,9 +1,9 @@
-  ___                 _                           _     _                       
- |_ _|  _ __    ___  | |_   _ __   _   _    ___  | |_  (_)   ___    _ __    ___ 
-  | |  | '_ \  / __| | __| | '__| | | | |  / __| | __| | |  / _ \  | '_ \  / __|
-  | |  | | | | \__ \ | |_  | |    | |_| | | (__  | |_  | | | (_) | | | | | \__ \
- |___| |_| |_| |___/  \__| |_|     \__,_|  \___|  \__| |_|  \___/  |_| |_| |___/
-
+ ___                 _                           _     _                       
+|_ _|  _ __    ___  | |_   _ __   _   _    ___  | |_  (_)   ___    _ __    ___ 
+ | |  | '_ \  / __| | __| | '__| | | | |  / __| | __| | |  / _ \  | '_ \  / __|
+ | |  | | | | \__ \ | |_  | |    | |_| | | (__  | |_  | | | (_) | | | | | \__ \
+|___| |_| |_| |___/  \__| |_|     \__,_|  \___|  \__| |_|  \___/  |_| |_| |___/
+############################################################################################
 
 1) cd [File path to java folder here...]
 
@@ -34,15 +34,11 @@ Notes:
 
  - e.g: java runtm palindrome.txt input.txt -I -P
 
- 
-#######################################################################################
- 
+  
 Recognise from the language {#n#w | w is any sequence of characters and n is the length of w} over the alphabet {a, b, c}
  
 For instance, #6#abcabc_, #0#_, and #7#abbabba_ belong to the language, but #abba#5_, #3aaa_, and #000#_ do not.
 
-
-4#abba_
 
 0) can check for how many 0s as you start X
     - if 0, then if next character is not a hash and character after that _, reject (no trailing 0s) X

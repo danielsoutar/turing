@@ -60,9 +60,6 @@ public class runtm {
 	public static void clearScreen() {
 		System.out.print("\033[H\033[2J");
 		System.out.flush();
-		System.out.println("########################");
-		System.out.println("########################");
-		System.out.println("########################");
 	}
 
 	private static void run(TuringMachine machine, String[] inputs) {
@@ -72,12 +69,12 @@ public class runtm {
 					System.out.println("input accepted");
 				else
 					System.out.println("input rejected");
-				System.out.println("########################");
 			}
 		}
 		catch(InputException e) {
 			System.out.println(e.getMessage());
 		}
+		System.out.println("########################");
 	}
 
 	@SuppressWarnings("unused")

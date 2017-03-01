@@ -6,7 +6,8 @@ import java.util.Scanner;
 public class TuringMachine {
 
 	private static final int N_LINE_SIZE = 2;
-
+	private static final int MAX_STATE_SIZE = 2;
+	private static final int NORMAL_STATE_SIZE = 1;
 	private final int TRANSITION_LENGTH = 5;
 
 	private int n = 0;
@@ -137,7 +138,7 @@ public class TuringMachine {
 	private void retrieveN(String line) throws InputException {
 		String[] components = line.split(" ");
 		if(components.length != N_LINE_SIZE)
-			throw new InputException("Error: first line of machine description should be 'states x', where x is the number of states");
+			throw new InputException("Error: first line of machine description should be 'states n', where n is the number of states");
 
 		n = parse(components[1]);
 		if(n < 0 || n > Integer.MAX_VALUE)
@@ -160,9 +161,12 @@ public class TuringMachine {
 	private void retrieveState(String line, int counter) throws InputException {
 		String[] components = line.split(" ");
 
+		if(components.length > MAX_STATE_SIZE)
+			throw new InputException("Error: states are either of the form 'state_name' or 'state_name status', one state per line");
+
 		String name, status;
 		name = components[0];
-		if(components.length > 1)
+		if(components.length > NORMAL_STATE_SIZE)
 			status = components[1];
 		else
 			status = "";
@@ -188,52 +192,52 @@ public class TuringMachine {
 		return true;
 	}
 
-	private void retrieveAlphabet(String line) {
+	private void retrieveAlphabet(String line) throws InputException {
+		String[] components = line.split(" ");			
+
+		if(!components[0].equals("alphabet"))
+			throw new InputException("Error: following states given, next line should be of the form\n" + 
+					"Error: 'alphabet x a1, a2 ... ax where x is the size of the alphabet and a1, a2 ... ax are the characters");
+
+		int alpha = 0;
 		try {
-			String[] components = line.split(" ");
-			int alpha = Integer.parseInt(components[1]);
-
-			if(components.length != alpha + 2)
-				throw new InputException("Error: The size of the alphabet does not match the number of arguments entered.");
-
-			alphabet = new char[alpha];
-
-			for(int i = 0; i < alpha; i++)
-				alphabet[i] = retrieveSymbol(components[i + 2]);
+			alpha = Integer.parseInt(components[1]);
 		}
-		catch(InputException e) {
-			System.out.println(e.getMessage());
+		catch(NumberFormatException e) {
+			throw new InputException("Error: alphabet must have a defined size");
 		}
+
+		if(components.length != alpha + 2)
+			throw new InputException("Error: The size of the alphabet does not match the number of arguments entered");
+
+		alphabet = new char[alpha];
+
+		for(int i = 0; i < alpha; i++)
+			alphabet[i] = retrieveSymbol(components[i + 2]);
 	}
 
 	private char retrieveSymbol(String component) {
 		return component.charAt(0);
 	}
 
-	private void retrieveTransition(String line) {
-		try {
-			String[] components = line.split(" ");
-			if(components.length != TRANSITION_LENGTH)
-				throw new InputException("Error: Transitions must be of the form:\n<state1> <tape_input> <state2> <tape_output> <move>");
-			State state1 = findStateWithName(components[0]);
-			char tape_input = findSymbolMatching(components[1]);
-			State state2 = findStateWithName(components[2]);
-			char tape_output = findSymbolMatching(components[3]);
-			Move move = new Move(components[4]);
-			Transition t = new Transition(state1, tape_input, state2, tape_output, move);
-			transition_table.add(t);
-		}
-		catch(InputException e) {
-			System.out.println(e.getMessage());
-			System.exit(1);
-		}
+	private void retrieveTransition(String line) throws InputException {
+		String[] components = line.split(" ");
+		if(components.length != TRANSITION_LENGTH)
+			throw new InputException("Error: Transitions must be of the form:\n<state1> <tape_input> <state2> <tape_output> <move>");
+		State state1 = findStateWithName(components[0]);
+		char tape_input = findSymbolMatching(components[1]);
+		State state2 = findStateWithName(components[2]);
+		char tape_output = findSymbolMatching(components[3]);
+		Move move = new Move(components[4]);
+		Transition t = new Transition(state1, tape_input, state2, tape_output, move);
+		addToTable(t);
 	}
 
 	private State findStateWithName(String name) throws InputException {
 		for(State state : states)
 			if(state.getName().equals(name))
 				return state;
-		throw new InputException("Error: No state found in set with name " + name + ".");
+		throw new InputException("Error: No state found in set with name " + name);
 	}
 
 	private char findSymbolMatching(String symbol) throws InputException {
@@ -244,7 +248,18 @@ public class TuringMachine {
 		char empty = Transition.emptyCharacter();
 		if(empty == character_symbol)
 			return empty;
-		throw new InputException("Error: The input " + symbol + " is not defined in the alphabet.");
+		throw new InputException("Error: The input " + symbol + " is not defined in the alphabet");
+	}
+	
+	private void addToTable(Transition t) throws InputException {
+		String state_name = t.getInitialState().getName();
+		char input = t.getTapeInput();
+		for(Transition transition : transition_table)
+			if(state_name.equals(transition.getInitialState().getName())
+					&& input == transition.getTapeInput())
+				throw new InputException("Error: cannot have more than one transition for the same input/state pair, this is a determinisitic turing machine");
+				
+		transition_table.add(t);
 	}
 
 }
