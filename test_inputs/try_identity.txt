@@ -1,0 +1,6 @@
+abc#abc_
+abba#abba_
+ccc#ccc_
+abc#cba_
+abbaabba_
+abb#abc_

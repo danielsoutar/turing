@@ -1,4 +1,4 @@
-states 31
+states 44
 q0
 q1
 q2
@@ -28,6 +28,19 @@ q25
 q26
 q27
 q28
+q29
+q30
+q31
+q32
+q33
+q34
+q35
+q36
+q37
+q38
+q39
+q40
+q41
 qa +
 qr -
 alphabet 4 0 1 X #
@@ -119,7 +132,7 @@ q16 _ qr _ R
 q17 0 q18 X R
 q17 1 q19 X R
 q17 X qr X R
-q17 # q18 # R
+q17 # q20 # R
 q17 _ qr _ R
 q18 0 q18 0 R
 q18 1 q18 1 R
@@ -176,8 +189,68 @@ q28 1 q31 X R
 q28 X qr X R
 q28 # q30 # R
 q28 _ qr _ R
-q29 0
-q29 1
-q29 X
-q29 #
-q29 _
+q29 0 q29 0 R
+q29 1 q29 1 R
+q29 X q29 X R
+q29 # q32 # R
+q29 _ qr _ R
+q30 0 q35 X R
+q30 1 q36 X R
+q30 X q30 X R
+q30 # q33 # R
+q30 _ qr _ R
+q31 0 q31 0 R
+q31 1 q31 1 R
+q31 X q31 X R
+q31 # q34 # R
+q31 _ qr _ R
+q32 0 q35 X R
+q32 1 q36 X R
+q32 X q32 X R
+q32 # q39 # R
+q32 _ qr _ R
+q33 0 q33 X R
+q33 1 qr 1 R
+q33 X q33 X R
+q33 # qr # R
+q33 _ qa _ L
+q34 0 q37 X R
+q34 1 q38 X R
+q34 X q34 X R
+q34 # q40 # R
+q34 _ qr _ R
+q35 0 q35 0 R
+q35 1 q35 1 R
+q35 X q35 X R
+q35 # q39 # R
+q35 _ qr _ R
+q36 0 q36 0 R
+q36 1 q36 1 R
+q36 X q36 X R
+q36 # q40 # R
+q36 _ qr _ R
+q37 0 q37 0 R
+q37 1 q37 1 R
+q37 X q37 X R
+q37 # q40 # R
+q37 _ qr _ R
+q38 0 q38 0 R
+q38 1 q38 1 R
+q38 X q38 X R
+q38 # q41 # R
+q38 _ qr _ R
+q39 0 q11 X L
+q39 1 qr 1 R
+q39 X q39 X R
+q39 # qr # R
+q39 _ qr _ R
+q40 0 qr 0 R
+q40 1 q11 X L
+q40 X q40 X R
+q40 # qr # R
+q40 _ qr _ R
+q41 0 q14 X L
+q41 1 qr 1 R
+q41 X q41 X R
+q41 # qr # R
+q41 _ qr _ R
