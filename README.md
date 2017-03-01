@@ -33,3 +33,10 @@ Notes:
 * You can use both flags together, and in any order.
 
  - e.g: java runtm palindrome.txt input.txt -I -P
+
+ 
+#######################################################################################
+ 
+Recognise from the language {w#n | w is any sequence of characters and n is the length of w} over the alphabet {a, b, c}
+ 
+For instance, abcabc#6_, #0_, and abbabba#7_ belong to the language, but abba#5_, aaa3_, and #000_ do not.
