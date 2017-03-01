@@ -6,6 +6,10 @@ public class Move {
 	
 	private String direction = "";
 	
+	/**
+	 * Move constructor that accepts a direction. 
+	 * Throws an InputException if the direction is invalid.
+	 **/
 	public Move(String direction) throws InputException {
 		if(direction.equals(LEFT) || direction.equals(RIGHT))
 			this.direction = direction;

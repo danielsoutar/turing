@@ -7,6 +7,7 @@ public class Transition {
 	private char output;
 	private Move move;
 	
+	//Empty character is stored internally
 	private static final char emptyCharacter = '_';
 	public static final String LEFT = "L";
 	public static final String RIGHT = "R";
@@ -39,6 +40,9 @@ public class Transition {
 		return move.getDirection();
 	}
 	
+	/**
+	 * This is called when runtm.printMachineDescription(TuringMachine machine) is called.
+	 **/
 	public String print() {
 		String print = "";
 		print += "<" + state1.getName() + "> ";

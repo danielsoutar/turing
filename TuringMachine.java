@@ -5,6 +5,9 @@ import java.util.Scanner;
 
 public class TuringMachine {
 
+	/**
+	 * These are constants to do with the format of the machine description. 
+	 **/
 	private static final int N_LINE_SIZE = 2;
 	private static final int MAX_STATE_SIZE = 2;
 	private static final int NORMAL_STATE_SIZE = 1;
@@ -33,6 +36,12 @@ public class TuringMachine {
 		return transition_table;
 	}
 
+	/**
+	 * Takes a machine description and parses it for its number of states, the set
+	 * of states including the accept and reject states, the alphabet, and the 
+	 * transition table. Throws an InputException if any of these fail to parse, and 
+	 * throws a FileNotFoundException if there is no file.
+	 */
 	public void initialise(String turing_description) throws InputException, FileNotFoundException {
 		Scanner scanner = new Scanner(new File(turing_description));
 
@@ -56,14 +65,33 @@ public class TuringMachine {
 		scanner.close();
 	}
 
+	/**
+	 * Takes in an input line from the input file, the interactive and performance flags,
+	 * and sets its position and state to start evaluating. Throws an InputException if
+	 * the input line is malformed.
+	 **/
 	public boolean canAccept(char[] input, boolean i_mode, boolean p_mode) throws InputException {
 		position = 0;
 		current_state = start_state;
 		current_input = input[position];
-		return accept(input, position, current_state, current_input, i_mode, p_mode);
+		return accept(input, i_mode, p_mode);
 	}
 
-	private boolean accept(char[] input, int position, State current_state, char current_input, boolean i_mode, boolean p_mode) throws InputException {
+	/**
+	 * From its starting state and position, the machine evaluates the input by examining
+	 * its current state and the initial input, transitions into the resulting state, 
+	 * writes the corresponding output, and shifts left or right along the input
+	 * depending on the transition function.
+	 * 
+	 * If it encounters either the accept or reject state, it simply breaks the loop
+	 * and returns true if it is an accept state and false otherwise.
+	 * 
+	 * Optionally, it prints the new transition in each iteration if the -I flag was set.
+	 * Optionally, it prints the number of steps taken at the end if the -P flag was set.
+	 * 
+	 * Throws an InputException if the input line is malformed.
+	 **/
+	private boolean accept(char[] input, boolean i_mode, boolean p_mode) throws InputException {
 		char[] original_input = input.clone();
 		int number_of_steps = 0;
 		while(current_state.isDefault()) {
@@ -73,11 +101,8 @@ public class TuringMachine {
 				break;
 			input[position] = t.getTapeOutput();
 
-			position = shift(position, t.getMoveDirection());
+			position = shift(position, t.getMoveDirection(), input.length);
 
-			if(input.length < position + 1)
-				throw new InputException("Error: Malformed transition table or input. "
-						+ "Machine attempting to read outside input in non-rejecting state.");
 			current_input = input[position];
 
 			if(i_mode) 
@@ -98,6 +123,11 @@ public class TuringMachine {
 		System.out.println(number_of_steps);
 	}
 
+	/**
+	 * This is a nicely formatted printing of the transition if the -I flag was set.
+	 * If the input is very large, the program speeds up, and otherwise slows down so
+	 * that the transitions being printed are actually readable.
+	 **/
 	private synchronized void printTransition(char[] input, Transition t) {
 		boolean needSpeed = false;
 		for(int i = 0; i < input.length && i < runtm.SCREEN_SIZE; i++)
@@ -114,19 +144,34 @@ public class TuringMachine {
 				wait(10);
 			else
 				wait(80);
-		} catch (InterruptedException e) {
+		} 
+		catch (InterruptedException e) {
 			System.out.println(e.getMessage());
 		}
 	}
 
-	private int shift(int position, String moveDirection) {
+	/**
+	 * Determines where the machine should move based on the move in the transition.
+	 * If it reads below 0, it sets to 0, and if it attempts to read beyond the
+	 * maximum, it sets to the maximum position allowed.
+	 **/
+	private int shift(int position, String moveDirection, int max) {
 		if(moveDirection.equals(Transition.LEFT))
 			position--;
 		else if(moveDirection.equals(Transition.RIGHT))
 			position++;
+		if(position < 0)
+			position++;
+		if(position == max)
+			position--;
 		return position;
 	}
 
+	/**
+	 * Note that since this is a deterministic TM, there is exactly one transition
+	 * with the corresponding current_state/current_input pair.
+	 * Throws an InputException if there is no transition available.
+	 **/
 	private Transition getTransitionContaining(State current_state, char current_input) throws InputException {
 		for(Transition t : transition_table)
 			if(t.getInitialState().equals(current_state) && t.getTapeInput() == current_input)
@@ -134,7 +179,10 @@ public class TuringMachine {
 		throw new InputException("Error: there is no transition possible given the state and input.");
 	}
 
-	//n must be greater than 0, and less than java.MAX_INTEGER.
+	/**
+	 * Gets the number of states. This number must be greater than 0 and less than 
+	 * Integer.MAX_VALUE. Throws an InputException if it isn't.
+	 **/
 	private void retrieveN(String line) throws InputException {
 		String[] components = line.split(" ");
 		if(components.length != N_LINE_SIZE)
@@ -146,6 +194,10 @@ public class TuringMachine {
 
 	}
 
+	/**
+	 * Attempts to parse the number of states. Essentially converts a 
+	 * NumberFormatException to an InputException if it fails.
+	 **/
 	private int parse(String input) throws InputException {
 		try {
 			n = Integer.parseInt(input);
@@ -156,12 +208,18 @@ public class TuringMachine {
 		}
 	}
 
-	//Each state must have a unique name, there must be n states, there must be exactly one accept state, and exactly
-	//one reject state. There must be (n - 2) default states.
+	/**
+	 * Retrieves a state, which must have a unique name, and there must be exactly one
+	 * accept state, and exactly one reject state. There must also be n states, and 
+	 * n - 2 'default' states.
+	 * Throws an InputException if the line has too many elements, or too few, or if
+	 * a state already exists with the same name or if there are multiple accept/reject
+	 * states.
+	 **/
 	private void retrieveState(String line, int counter) throws InputException {
 		String[] components = line.split(" ");
 
-		if(components.length > MAX_STATE_SIZE)
+		if(components.length > MAX_STATE_SIZE || components.length == 0)
 			throw new InputException("Error: states are either of the form 'state_name' or 'state_name status', one state per line");
 
 		String name, status;
@@ -183,15 +241,23 @@ public class TuringMachine {
 		return true;
 	}
 
-	//Checking if it is unique in the case of being an accept or reject state.
+	/**
+	 * Checks if two states have the same status. If both are identical non-default states,
+	 * throws an InputException.
+	 **/
 	private boolean uniqueValidStatus(String status) throws InputException {
 		for(State state : states)
-			if(state != null && state.getStatus().equals(status) && !state.isDefault())
+			if(state != null && !state.isDefault() && state.getStatus().equals(status))
 				throw new InputException("Error: a machine cannot have more than one accept state and one reject state");
 
 		return true;
 	}
 
+	/**
+	 * Retrieves the input alphabet. Throws an InputException if the alphabet keyword is
+	 * missing, the size of the alphabet is missing or not parseable, or if the size
+	 * of the alphabet does not correspond to the number of characters provided.
+	 **/
 	private void retrieveAlphabet(String line) throws InputException {
 		String[] components = line.split(" ");			
 
@@ -220,6 +286,12 @@ public class TuringMachine {
 		return component.charAt(0);
 	}
 
+	/**
+	 * Parses a transition line for its 5 components.
+	 * Throws an InputException if the number of components is not 5, if there is a
+	 * missing/invalid state name, a missing/invalid character, or a missing/invalid
+	 * move.
+	 **/
 	private void retrieveTransition(String line) throws InputException {
 		String[] components = line.split(" ");
 		if(components.length != TRANSITION_LENGTH)
@@ -240,6 +312,12 @@ public class TuringMachine {
 		throw new InputException("Error: No state found in set with name " + name);
 	}
 
+	/**
+	 * Determines whether the symbol provided is in the tape alphabet. Note that this 
+	 * includes the empty character ('_') which the input alphabet does not need to 
+	 * include.
+	 * Throws an InputException if there is no symbol that matches.
+	 **/
 	private char findSymbolMatching(String symbol) throws InputException {
 		char character_symbol = symbol.charAt(0);
 		for(char c : alphabet)
@@ -251,6 +329,10 @@ public class TuringMachine {
 		throw new InputException("Error: The input " + symbol + " is not defined in the alphabet");
 	}
 	
+	/**
+	 * Checks if the transition provided already exists (since this is a deterministic
+	 * TM), and throws an InputException if so.
+	 **/
 	private void addToTable(Transition t) throws InputException {
 		String state_name = t.getInitialState().getName();
 		char input = t.getTapeInput();

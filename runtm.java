@@ -16,6 +16,10 @@ public class runtm {
 	public static final int SCREEN_SIZE = 77;
 
 
+	/**
+	 * The machine is initialised, the inputs are stored in an array, 
+	 * and the screen is cleared.
+	 **/
 	public static void main(String[] args) {
 		check(args.length);
 
@@ -40,6 +44,10 @@ public class runtm {
 		run(machine, inputs);
 	}
 
+	/**
+	 * All flags present are stored internally. Terminates the program
+	 * if an invalid flag is entered.
+	 **/
 	private static void getAllFlags(String[] args) {
 		if(args.length == MIN_NUM_ARGS)
 			return;
@@ -62,6 +70,11 @@ public class runtm {
 		System.out.flush();
 	}
 
+	/**
+	 * Iterates through the inputs provided and compares each of them to the machine
+	 * that is now represented internally. A message to the console is provided with
+	 * the result.
+	 **/
 	private static void run(TuringMachine machine, String[] inputs) {
 		try {
 			for(String input : inputs) {
@@ -77,13 +90,18 @@ public class runtm {
 		System.out.println("########################");
 	}
 
+	/**
+	 * This is a method to display the machine as represented internally.
+	 * It's somewhat lengthy, hence it is not used, although should you wish
+	 * it would be easy enough to call it.
+	 **/
 	@SuppressWarnings("unused")
 	private static void printMachineDescription(TuringMachine machine) {
 		for(State s : machine.getStates())
 			System.out.println("State: " + s.getName());
 
 		for(char c : machine.getAlphabet())
-			System.out.println("Alphabet symboL:"  + c);
+			System.out.println("Alphabet symbol:"  + c);
 
 		for(Transition t : machine.getTransitionTable())
 			System.out.println(t.print());
@@ -97,6 +115,11 @@ public class runtm {
 		}
 	}
 
+	/**
+	 * The input file is scanned and the lines are iteratively added to the
+	 * data structure responsible for storing them - I start with an arraylist for
+	 * its flexibility, and then convert it to an array for simplicity and speed.
+	 **/
 	private static String[] getInputFrom(String input_file) {
 		Scanner scanner = null;
 		ArrayList<String> input_array_list = new ArrayList<String>();

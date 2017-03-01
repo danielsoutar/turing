@@ -7,6 +7,10 @@ public class State {
 	private String name;
 	private String status;
 
+	/**
+	 * State constructor which sets its name and status.
+	 * Throws an InputException if the status provided is invalid.
+	 **/
 	public State(String name, String status) throws InputException {
 		this.name = name;
 		if(status.equals(""))
