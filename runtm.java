@@ -1,6 +1,7 @@
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Scanner;
 
 public class runtm {
@@ -35,7 +36,7 @@ public class runtm {
 
 		//printMachineDescription(machine);
 
-		String[] inputs = getInputFrom(args[1]);
+		ArrayList<String> inputs = getInputFrom(args[1]);
 
 		getAllFlags(args);		
 
@@ -75,10 +76,13 @@ public class runtm {
 	 * that is now represented internally. A message to the console is provided with
 	 * the result.
 	 **/
-	private static void run(TuringMachine machine, String[] inputs) {
+	private static void run(TuringMachine machine, ArrayList<String> inputs) {
 		try {
-			for(String input : inputs) {
-				if(machine.canAccept(input.toCharArray(), in_interactive_mode, in_performance_mode))
+			for(String in : inputs) {
+				ArrayList<Character> input = new ArrayList<Character>();
+				for (char c : in.toCharArray())
+				  input.add(c);
+				if(machine.canAccept(input, in_interactive_mode, in_performance_mode))
 					System.out.println("input accepted");
 				else
 					System.out.println("input rejected");
@@ -120,7 +124,7 @@ public class runtm {
 	 * data structure responsible for storing them - I start with an arraylist for
 	 * its flexibility, and then convert it to an array for simplicity and speed.
 	 **/
-	private static String[] getInputFrom(String input_file) {
+	private static ArrayList<String> getInputFrom(String input_file) {
 		Scanner scanner = null;
 		ArrayList<String> input_array_list = new ArrayList<String>();
 		try {
@@ -132,9 +136,7 @@ public class runtm {
 			System.out.println("Error: No input file was provided.");
 			System.exit(1);
 		}
-		String[] input_array = new String[input_array_list.size()];
-		input_array = input_array_list.toArray(input_array);
-		return input_array;
+		return input_array_list;
 	}
 
 }

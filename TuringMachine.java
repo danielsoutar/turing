@@ -70,10 +70,10 @@ public class TuringMachine {
 	 * and sets its position and state to start evaluating. Throws an InputException if
 	 * the input line is malformed.
 	 **/
-	public boolean canAccept(char[] input, boolean i_mode, boolean p_mode) throws InputException {
+	public boolean canAccept(ArrayList<Character> input, boolean i_mode, boolean p_mode) throws InputException {
 		position = 0;
 		current_state = start_state;
-		current_input = input[position];
+		current_input = input.get(position).charValue();
 		return accept(input, i_mode, p_mode);
 	}
 
@@ -91,19 +91,19 @@ public class TuringMachine {
 	 * 
 	 * Throws an InputException if the input line is malformed.
 	 **/
-	private boolean accept(char[] input, boolean i_mode, boolean p_mode) throws InputException {
-		char[] original_input = input.clone();
+	private boolean accept(ArrayList<Character> input, boolean i_mode, boolean p_mode) throws InputException {
+		Object[] original_input = input.toArray();
 		int number_of_steps = 0;
 		while(current_state.isDefault()) {
 			Transition t = getTransitionContaining(current_state, current_input);
 			current_state = t.getResultState();
 			if(!current_state.isDefault())
 				break;
-			input[position] = t.getTapeOutput();
+			input.set(position, t.getTapeOutput());
+			
+			position = shift(position, t.getMoveDirection(), input.size());
 
-			position = shift(position, t.getMoveDirection(), input.length);
-
-			current_input = input[position];
+			current_input = input.get(position);
 
 			if(i_mode) 
 				printTransition(input, t);
@@ -116,10 +116,12 @@ public class TuringMachine {
 		return current_state.isAcceptState();
 	}
 
-	private void printSteps(char[] original_input, int number_of_steps) {
-		String output = String.copyValueOf(original_input);
+	private void printSteps(Object[] original_input, int number_of_steps) {
+		String output = "";
+		for(Object o : original_input)
+			output += ((Character) o).charValue();
 		System.out.println("########################");
-		System.out.println("Number of steps on input "+ output + ": ");
+		System.out.println("Number of steps on input " + output + ": ");
 		System.out.println(number_of_steps);
 	}
 
@@ -128,12 +130,12 @@ public class TuringMachine {
 	 * If the input is very large, the program speeds up, and otherwise slows down so
 	 * that the transitions being printed are actually readable.
 	 **/
-	private synchronized void printTransition(char[] input, Transition t) {
+	private synchronized void printTransition(ArrayList<Character> input, Transition t) {
 		boolean needSpeed = false;
-		for(int i = 0; i < input.length && i < runtm.SCREEN_SIZE; i++)
-			System.out.print(input[i]);
+		for(int i = 0; i < input.size() && i < runtm.SCREEN_SIZE; i++)
+			System.out.print(input.get(i));
 
-		if(input.length >= runtm.SCREEN_SIZE) {
+		if(input.size() >= runtm.SCREEN_SIZE) {
 			System.out.print("...");
 			needSpeed = true;
 		}
@@ -152,8 +154,10 @@ public class TuringMachine {
 
 	/**
 	 * Determines where the machine should move based on the move in the transition.
-	 * If it reads below 0, it sets to 0, and if it attempts to read beyond the
-	 * maximum, it sets to the maximum position allowed.
+	 * If it reads below 0, it sets to 0. Since the representation of the input
+	 * is dynamic and therefore as close to 'infinitely long in one direction' as
+	 * is realistically possible, the only way you could read beyond the maximum is
+	 * an issue for the maximum size of an integer in java.
 	 **/
 	private int shift(int position, String moveDirection, int max) {
 		if(moveDirection.equals(Transition.LEFT))
@@ -162,8 +166,6 @@ public class TuringMachine {
 			position++;
 		if(position < 0)
 			position++;
-		if(position == max)
-			position--;
 		return position;
 	}
 

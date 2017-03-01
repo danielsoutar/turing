@@ -30,7 +30,7 @@ Notes:
 
  - e.g: java runtm palindrome.txt input.txt -P
 
-* You can use both flags together, and in any order.
+* You can use both flags together, and in any order (although they must come at the end).
 
  - e.g: java runtm palindrome.txt input.txt -I -P
 
