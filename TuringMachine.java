@@ -23,10 +23,6 @@ public class TuringMachine {
 	private State start_state;
 	private State current_state;
 	private char current_input;
-	
-	private static ArrayList<Integer> steps = new ArrayList<Integer>();
-	private static ArrayList<Integer> lengths = new ArrayList<Integer>();
-	
 
 	public State[] getStates() {
 		return states;
@@ -114,11 +110,8 @@ public class TuringMachine {
 			number_of_steps++;
 		}
 
-		if(p_mode) {
+		if(p_mode)
 			printSteps(original_input, number_of_steps);
-			steps.add(number_of_steps);
-			lengths.add(input.size());
-		}
 		
 		return current_state.isAcceptState();
 	}
@@ -351,20 +344,6 @@ public class TuringMachine {
 				throw new InputException("Error: cannot have more than one transition for the same input/state pair, this is a determinisitic turing machine");
 
 		transition_table.add(t);
-	}
-	
-	public static String getLengths() {
-		String output = "";
-		for(Integer i : lengths)
-			output += i + "\n";
-		return output;
-	}
-
-	public static String getSteps() {
-		String output = "";
-		for(Integer i : steps)
-			output += i + "\n";
-		return output;
 	}
 
 }

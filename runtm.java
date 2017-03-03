@@ -90,11 +90,6 @@ public class runtm {
 		catch(InputException e) {
 			System.out.println(e.getMessage());
 		}
-		if(in_performance_mode) {
-			System.out.println(TuringMachine.getSteps());
-			System.out.println();
-			System.out.println(TuringMachine.getLengths());
-		}
 		System.out.println("########################");
 	}
 
