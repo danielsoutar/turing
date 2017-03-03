@@ -1,7 +1,6 @@
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Scanner;
 
 public class runtm {
@@ -91,12 +90,17 @@ public class runtm {
 		catch(InputException e) {
 			System.out.println(e.getMessage());
 		}
+		if(in_performance_mode) {
+			System.out.println(TuringMachine.getSteps());
+			System.out.println();
+			System.out.println(TuringMachine.getLengths());
+		}
 		System.out.println("########################");
 	}
 
 	/**
 	 * This is a method to display the machine as represented internally.
-	 * It's somewhat lengthy, hence it is not used, although should you wish
+	 * The ouput is somewhat lengthy, hence it is not used, although should you wish
 	 * it would be easy enough to call it.
 	 **/
 	@SuppressWarnings("unused")

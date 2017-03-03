@@ -23,6 +23,10 @@ public class TuringMachine {
 	private State start_state;
 	private State current_state;
 	private char current_input;
+	
+	private static ArrayList<Integer> steps = new ArrayList<Integer>();
+	private static ArrayList<Integer> lengths = new ArrayList<Integer>();
+	
 
 	public State[] getStates() {
 		return states;
@@ -100,7 +104,7 @@ public class TuringMachine {
 			if(!current_state.isDefault())
 				break;
 			input.set(position, t.getTapeOutput());
-			
+
 			position = shift(position, t.getMoveDirection(), input.size());
 
 			current_input = input.get(position);
@@ -110,9 +114,12 @@ public class TuringMachine {
 			number_of_steps++;
 		}
 
-		if(p_mode)
+		if(p_mode) {
 			printSteps(original_input, number_of_steps);
-
+			steps.add(number_of_steps);
+			lengths.add(input.size());
+		}
+		
 		return current_state.isAcceptState();
 	}
 
@@ -330,7 +337,7 @@ public class TuringMachine {
 			return empty;
 		throw new InputException("Error: The input " + symbol + " is not defined in the alphabet");
 	}
-	
+
 	/**
 	 * Checks if the transition provided already exists (since this is a deterministic
 	 * TM), and throws an InputException if so.
@@ -342,8 +349,22 @@ public class TuringMachine {
 			if(state_name.equals(transition.getInitialState().getName())
 					&& input == transition.getTapeInput())
 				throw new InputException("Error: cannot have more than one transition for the same input/state pair, this is a determinisitic turing machine");
-				
+
 		transition_table.add(t);
+	}
+	
+	public static String getLengths() {
+		String output = "";
+		for(Integer i : lengths)
+			output += i + "\n";
+		return output;
+	}
+
+	public static String getSteps() {
+		String output = "";
+		for(Integer i : steps)
+			output += i + "\n";
+		return output;
 	}
 
 }

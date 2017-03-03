@@ -1,5 +1,0 @@
-aab_
-baba_
-abaa_
-babb_
-aabbab_
